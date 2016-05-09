@@ -20,6 +20,21 @@ type Getter interface {
 	Get() uint16
 }
 
+func getCurMsec() uint64 {
+
+	nanoSecs := time.Now().UnixNano()
+	return uint64(nanoSecs / 1000 / 1000)
+}
+
+func buildUint64(stamp uint64, mid_10 uint16, last_12 uint16) uint64 {
+
+	var res uint64 = 0
+
+	res = (stamp << 22 & FIRST_43) | uint64((mid_10&MID_10)<<12) | uint64(last_12&LAST_12)
+
+	return res
+}
+
 func NewIdMaker(get Getter) *IdMaker {
 
 	idMaker := &IdMaker{0, 0, 0, get}
@@ -44,21 +59,6 @@ func (this *IdMaker) waitNextMs() uint64 {
 	this.lasttime = cur
 
 	return cur
-}
-
-func getCurMsec() uint64 {
-
-	nanoSecs := time.Now().UnixNano()
-	return uint64(nanoSecs / 1000 / 1000)
-}
-
-func buildUint64(stamp uint64, mid_10 uint16, last_12 uint16) uint64 {
-
-	var res uint64 = 0
-
-	res = (stamp << 22 & FIRST_43) | uint64((mid_10&MID_10)<<12) | uint64(last_12&LAST_12)
-
-	return res
 }
 
 //不考虑线程安全性
