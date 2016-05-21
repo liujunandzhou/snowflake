@@ -61,7 +61,7 @@ func (this *IdMaker) waitNextMs() uint64 {
 	return cur
 }
 
-//不考虑线程安全性
+//不考虑线程安全性,由调用方自己考虑线程安全性
 func (this *IdMaker) GenId() uint64 {
 
 	this.seq = this.seq + 1
