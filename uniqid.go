@@ -1,6 +1,7 @@
 package idgen
 
 import "time"
+import "fmt"
 
 const MAX_SEQ = 1024
 const FIRST_43 uint64 = 0x7fffffffffffffff
@@ -41,6 +42,8 @@ func NewIdMaker(get Getter) *IdMaker {
 
 	idMaker.mid = get.Get()
 
+	fmt.Println("idmaker.mid", idMaker.mid)
+
 	return idMaker
 }
 
@@ -68,7 +71,7 @@ func (this *IdMaker) GenId() uint64 {
 
 	if this.seq >= MAX_SEQ {
 		this.seq = 0
-		this.waitNextMs()
+		//	this.waitNextMs()
 	}
 
 	return buildUint64(getCurMsec(), this.mid, this.seq)

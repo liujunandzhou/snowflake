@@ -1,0 +1,12 @@
+package idserver;
+
+message Request {
+}
+
+message Response {
+	optional string uniqid=1;
+}
+
+service IdServer {
+	rpc GetId(Request) returns (Response);
+}
